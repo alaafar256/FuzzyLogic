@@ -11,7 +11,14 @@ public class Variable {
         this.name  = name;
        value = v;  
     }
-    public String GetName() 
+    public Variable() {
+		// TODO Auto-generated constructor stub
+    	name = " " ; 
+    	value = 0 ; 
+    	numberofsetsforvariable = 0 ; 
+    	fuzzyset = null ;
+	}
+	public String GetName() 
     {
     	return this.name ; 
     }
@@ -33,20 +40,33 @@ public class Variable {
                s.Membership(value);
         }
     }
-    public void Defuzzification() {
+    public void domain(double d) {
+        for (FuzzySets s : fuzzyset) {
+        	
+            if (d <= s.centroid) 
+            {
+            	System.out.println("Predicted Value will be " + s.FuzzySetName );
+            }
+
+        }
+    }
+    public double Defuzzification() {
     	double sumofmembershipsvalues =0.0 ;
     	double sumofcentroidmulofmemberships = 0.0 ; 
     	double PredictedValue = 0.0 ; 
         for (FuzzySets s : fuzzyset) {
-        	System.out.print(s.FuzzySetName + " = ");
+        	System.out.print(s.FuzzySetName + " ");
                s.GetCentroid(); 
-               sumofmembershipsvalues = sumofmembershipsvalues+s.membership ; 
-               sumofcentroidmulofmemberships =sumofcentroidmulofmemberships+ s.membership*s.centroid ;            
-        }
-        PredictedValue = sumofmembershipsvalues/sumofcentroidmulofmemberships ; 
-        System.out.println("Predicted Value Risk = " + PredictedValue ) ; 
-    }
+               sumofmembershipsvalues +=s.centroid *s.membership ; 
+               sumofcentroidmulofmemberships =sumofcentroidmulofmemberships+ s.membership;
 
+        }
+        if (sumofcentroidmulofmemberships != 0 ) {
+        PredictedValue = sumofmembershipsvalues/sumofcentroidmulofmemberships ; 
+        System.out.println("Predicted Value Risk = " + PredictedValue); 
+        }
+        return PredictedValue ;   
+    }
 }
 /*Fundingproject
 40

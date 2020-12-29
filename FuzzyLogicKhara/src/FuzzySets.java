@@ -6,6 +6,7 @@ public class FuzzySets {
 	String shape ; 
 	double membership ; 
 	double centroid ; 
+    double sum ;
 	String triangle = "triangle";
     String trapezoidal = "trapezoidal";
     double numberofvaluesofset [] ; 
@@ -15,6 +16,7 @@ public class FuzzySets {
     	FuzzySetName=" " ; 
     	membership =0.0 ; 
     	centroid = 0.0  ; 
+    	sum=0.0 ; 
     }
     public FuzzySets(String FuzzySetName ,String shape ) 
     {
@@ -26,11 +28,12 @@ public class FuzzySets {
     		numberofvaluesofset = new double[3];
         } else if (shape.contains(trapezoidal)) {
         	numberofvaluesofset = new double [4];
-        }  	
+        }  
+    	sum = 0.0 ; 
     }
     @Override
     public String toString() {
-        return "FuzzySets{" + "FuzzySetName=" + FuzzySetName + ", shape=" + shape + ", membership=" + membership + ", centroid=" + centroid +  ", numberofvaluesofset=" + Arrays.toString(numberofvaluesofset)+ '}';
+        return "FuzzySets{" + "FuzzySetName=" + FuzzySetName + ", shape=" + shape + ", membership=" + membership + ", sum=" + sum+  ", centroid=" + centroid +  ", numberofvaluesofset=" + Arrays.toString(numberofvaluesofset)+ '}';
     }
     // get centroid for output set . 
     public void GetCentroid(){
@@ -41,7 +44,37 @@ public class FuzzySets {
         }
         centroid = centroid / numberofvaluesofset.length;
         System.out.println("Centroid = " + centroid) ; 
-    } 
+    }
+    // 
+    public void getsumofpoints(){
+    	int length = numberofvaluesofset.length  ; 
+         sum = 0;
+        for (int i = 0; i < numberofvaluesofset.length; i++) {
+            sum=sum + numberofvaluesofset[i];
+        }
+        
+    //   System.out.println("sum = " + sum) ; 
+    }
+    // check for the predicted value 
+  /*  public void checkdomain(double predictedvalue)
+    {
+    	if (predictedvalue < numberofvaluesofset[0])
+    	{
+    		System.out.println("Doesnt exist ") ;  
+    	}
+    	else if (predictedvalue>numberofvaluesofset[0] && predictedvalue <= numberofvaluesofset[1] )
+    	{
+    		System.out.println("Normal") ;
+    	}
+    	else if (predictedvalue>numberofvaluesofset[1] &&predictedvalue<numberofvaluesofset[2])
+    	{
+    		
+    	}
+    	
+       	
+    	
+    }
+    */
     /* http://www.dma.fi.upm.es/recursos/aplicaciones/logica_borrosa/web/fuzzy_inferencia/funpert_en.htm for membership functions */ 
     /* 
       Triangular function: defined by a lower limit a, an upper limit b, and a value m, where a < m < b and x is the value of the variable 
@@ -85,7 +118,7 @@ public class FuzzySets {
                  membership =0 ;
             }
         	else if (valueofVariable > numberofvaluesofset[0] && valueofVariable < numberofvaluesofset[1]) {
-                membership = ((numberofvaluesofset[1] - valueofVariable) / (numberofvaluesofset[1] - numberofvaluesofset[0]));
+                membership =1-((numberofvaluesofset[1] - valueofVariable) / (numberofvaluesofset[1] - numberofvaluesofset[0]));
         	}
         	else if (numberofvaluesofset[1]<=valueofVariable && valueofVariable <= numberofvaluesofset[2])
         	{
@@ -98,6 +131,7 @@ public class FuzzySets {
         }
         System.out.println(membership);
     }
+
 }
 
     
